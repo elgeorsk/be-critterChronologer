@@ -34,7 +34,6 @@ public class UserController {
 
     @Autowired
     public UserController(UserService userService, PetService petService){
-        //this.modelMapper = modelMapper;
         this.userService = userService;
         this.petService = petService;
     }

@@ -5,14 +5,12 @@ import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -57,7 +55,15 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        List<PetDTO> petsDTO = new ArrayList<>();
+        List<Pet> pets = petService.getAllPets();
+
+        for(Pet pet : pets){
+            petsDTO.add(convertPet2DTO(pet));
+        }
+
+        return petsDTO;
     }
 
     @GetMapping("/owner/{ownerId}")
