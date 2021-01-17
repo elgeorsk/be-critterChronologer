@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.dto;
 
+import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.PetType;
 
 import java.time.LocalDate;
@@ -15,6 +16,15 @@ public class PetDTO {
     private long ownerId;
     private LocalDate birthDate;
     private String notes;
+    private Customer owner;
+
+    public Customer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
 
     public PetType getType() {
         return type;

@@ -3,6 +3,7 @@ package com.udacity.jdnd.course3.critter.entity;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,10 +21,17 @@ public class Customer {
     @Column(length = 240)
     private String notes;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Pet.class, mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Pet> pets;
 
     public Customer() {
+    }
+
+    public void addPet(Pet pet){
+        if(pets == null){
+            pets = new ArrayList<>();
+        }
+        pets.add(pet);
     }
 
     public Long getId() {
