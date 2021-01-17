@@ -30,7 +30,7 @@ import java.util.stream.IntStream;
  * These tests should all pass once the project is complete.
  */
 @Transactional
-@SpringBootTest(classes = CritterApplication.class)
+@SpringBootTest(classes = CritterApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CritterFunctionalTest {
 
     @Autowired
