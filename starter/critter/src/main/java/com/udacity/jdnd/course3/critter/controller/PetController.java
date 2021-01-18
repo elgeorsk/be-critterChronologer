@@ -44,7 +44,6 @@ public class PetController {
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        //throw new UnsupportedOperationException();
         Pet pet = petService.getPet(petId);
         if (pet != null) {
             return convertPet2DTO(pet);
@@ -54,7 +53,6 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
-        //throw new UnsupportedOperationException();
         List<PetDTO> petsDTO = new ArrayList<>();
         List<Pet> pets = petService.getAllPets();
 
@@ -67,7 +65,6 @@ public class PetController {
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        //throw new UnsupportedOperationException();
         return petService.getAllPetsByOwner(ownerId).
                 stream().
                 map(this::convertPet2DTO).
