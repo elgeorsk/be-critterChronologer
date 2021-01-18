@@ -17,13 +17,11 @@ public class PetService {
 
     private PetRepository petRepository;
     private CustomerRepository customerRepository;
-    private UserService userService;
 
     @Autowired
-    public PetService(PetRepository petRepository, CustomerRepository customerRepository, UserService userService){
+    public PetService(PetRepository petRepository, CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
         this.petRepository = petRepository;
-        this.userService = userService;
     }
 
     public Pet savePet(Pet pet){

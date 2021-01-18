@@ -32,7 +32,6 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        //throw new UnsupportedOperationException();
         Customer customer = null;
         if ((Long) petDTO.getOwnerId() != null) {
             customer = userService.getCustomerById(petDTO.getOwnerId());

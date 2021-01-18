@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -40,7 +37,6 @@ public class UserController {
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        //throw new UnsupportedOperationException();
         List<Long> petIds = customerDTO.getPetIds();
         List<Pet> pets = new ArrayList<>();
         if (petIds != null) {
@@ -56,7 +52,6 @@ public class UserController {
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        //throw new UnsupportedOperationException();
         List<CustomerDTO> allCustomersDTO = new ArrayList<>();
         List<Customer> allCustomers = userService.getAllCustomers();
 
@@ -69,33 +64,43 @@ public class UserController {
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        //throw new UnsupportedOperationException();
         Customer customer = userService.getCustomerByPetId(petId);
         return convertCustomer2DTO(customer);
     }
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        //throw new UnsupportedOperationException();
         Employee employee = convertDTO2Employee(employeeDTO);
         return convertEmployee2DTO(userService.saveEmployee(employee));
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        //throw new UnsupportedOperationException();
-        Employee employee = userService.findEmployeeById(employeeId);
+        Employee employee = userService.getEmployeeById(employeeId);
         return convertEmployee2DTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        Employee employee = userService.getEmployeeById(employeeId);
+        List<DayOfWeek> availability = new ArrayList<DayOfWeek>(daysAvailable);
+        Set<DayOfWeek> hSet = new HashSet<DayOfWeek>(availability);
+        hSet.addAll(availability);
+        employee.setDaysAvailable(hSet);
+        userService.saveEmployee(employee);
     }
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+        List<Employee> employees = userService.getAvailableEmployeesBySkills(employeeDTO.getDate().getDayOfWeek(), employeeDTO.getSkills());
+
+        for(Employee employee : employees){
+            employeeDTOList.add(convertEmployee2DTO(employee));
+        }
+
+        return  employeeDTOList;
+
     }
 
     private Customer convertDTO2Customer(CustomerDTO customerDTO) {
