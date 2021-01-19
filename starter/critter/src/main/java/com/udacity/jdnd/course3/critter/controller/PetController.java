@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/pet")
 public class PetController {
 
-    //private ModelMapper modelMapper;
     private PetService petService;
     private UserService userService;
 
