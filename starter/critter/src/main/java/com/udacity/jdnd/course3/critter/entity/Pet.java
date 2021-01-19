@@ -19,7 +19,7 @@ public class Pet {
     @Nationalized
     private String name;
 
-    @ManyToOne(targetEntity = Customer.class, optional = false)
+    @ManyToOne(targetEntity = Customer.class)
     private Customer owner;
 
     private LocalDate birthDate;

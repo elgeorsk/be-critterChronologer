@@ -40,15 +40,13 @@ public class PetService {
         return petRepository.findAll();
     }
 
-    public List<Pet> getAllPetsByIds(List<Long> ids){
-        return petRepository.findAllById(ids);
-    }
-
     public List<Pet> getAllPetsByOwner(Long ownerId){
         return petRepository.findPetsByOwnerId(ownerId);
     }
 
+    /*
     public Pet findPetById(Long id) {
         return petRepository.findById(id).orElse(null);
     }
+     */
 }

@@ -115,6 +115,7 @@ public class UserController {
         if (customer.getPets() != null) {
             customerDTO.setPetIds(customer.getPets().stream().map(pet -> pet.getId()).collect(Collectors.toList()));
         }
+        customerDTO.setId(customer.getId());
         return customerDTO;
     }
 

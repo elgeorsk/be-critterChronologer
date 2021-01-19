@@ -12,6 +12,6 @@ import java.util.List;
 @Transactional
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    // https://www.baeldung.com/spring-data-derived-queries - 
+    // https://www.baeldung.com/spring-data-derived-queries -
     List<Employee> findAllByDaysAvailableContaining(DayOfWeek date);
 }

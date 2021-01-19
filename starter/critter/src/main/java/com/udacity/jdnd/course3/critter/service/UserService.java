@@ -31,7 +31,7 @@ public class UserService{
     }
 
     public Customer getCustomerById(Long id){
-        return customerRepository.findById(id).orElse(null);
+        return customerRepository.getOne(id);
     }
 
     public List<Customer> getAllCustomers(){

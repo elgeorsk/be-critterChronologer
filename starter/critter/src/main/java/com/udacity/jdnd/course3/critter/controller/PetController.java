@@ -43,9 +43,12 @@ public class PetController {
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
+        PetDTO petDTO;
         Pet pet = petService.getPet(petId);
         if (pet != null) {
-            return convertPet2DTO(pet);
+            petDTO = convertPet2DTO(pet);
+            petDTO.setOwnerId(pet.getOwner().getId());
+            return petDTO;
         }
         return null;
     }
@@ -56,7 +59,9 @@ public class PetController {
         List<Pet> pets = petService.getAllPets();
 
         for(Pet pet : pets){
-            petsDTO.add(convertPet2DTO(pet));
+            PetDTO petDTO = convertPet2DTO(pet);
+            petDTO.setOwnerId(pet.getOwner().getId());
+            petsDTO.add(petDTO);
         }
 
         return petsDTO;
@@ -64,10 +69,15 @@ public class PetController {
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        return petService.getAllPetsByOwner(ownerId).
-                stream().
-                map(this::convertPet2DTO).
-                collect(Collectors.toList());
+        List<PetDTO> petsDTO = new ArrayList<>();
+        List<Pet> pets = petService.getAllPetsByOwner(ownerId);
+
+        for(Pet pet : pets){
+            PetDTO petDTO = convertPet2DTO(pet);
+            petDTO.setOwnerId(pet.getOwner().getId());
+            petsDTO.add(petDTO);
+        }
+        return petsDTO;
     }
 
     private Pet convertDTO2Pet(PetDTO petDTO) {
@@ -79,7 +89,7 @@ public class PetController {
     private PetDTO convertPet2DTO(Pet pet) {
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
-        petDTO.setOwnerId(pet.getOwner().getId());
+        //petDTO.setOwnerId(pet.getOwner().getId());
         return petDTO;
     }
 }
