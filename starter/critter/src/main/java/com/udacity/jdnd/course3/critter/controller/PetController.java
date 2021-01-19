@@ -89,7 +89,6 @@ public class PetController {
     private PetDTO convertPet2DTO(Pet pet) {
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
-        //petDTO.setOwnerId(pet.getOwner().getId());
         return petDTO;
     }
 }
