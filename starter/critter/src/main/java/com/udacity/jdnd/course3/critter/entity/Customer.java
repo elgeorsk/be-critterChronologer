@@ -21,7 +21,7 @@ public class Customer {
     @Column(length = 240)
     private String notes;
 
-    @OneToMany(targetEntity = Pet.class, mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Pet.class, mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Pet> pets;
 
     public Customer() {

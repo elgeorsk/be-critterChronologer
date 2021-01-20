@@ -13,13 +13,13 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ElementCollection(targetClass=PetType.class)
+    @ElementCollection(targetClass=PetType.class, fetch = FetchType.LAZY)
     private Set<PetType> PetType;
 
     @Nationalized
     private String name;
 
-    @ManyToOne(targetEntity = Customer.class)
+    @ManyToOne(targetEntity = Customer.class, fetch = FetchType.LAZY)
     private Customer owner;
 
     private LocalDate birthDate;

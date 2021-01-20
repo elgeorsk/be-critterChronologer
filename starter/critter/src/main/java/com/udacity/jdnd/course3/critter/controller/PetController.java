@@ -33,7 +33,11 @@ public class PetController {
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
         Customer customer = null;
         if ((Long) petDTO.getOwnerId() != null) {
-            customer = userService.getCustomerById(petDTO.getOwnerId());
+            try {
+                customer = userService.getCustomerById(petDTO.getOwnerId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         Pet pet = convertDTO2Pet(petDTO);
         pet.setOwner(customer);

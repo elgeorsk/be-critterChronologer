@@ -30,8 +30,8 @@ public class UserService{
         return customerRepository.save(customer);
     }
 
-    public Customer getCustomerById(Long id){
-        return customerRepository.getOne(id);
+    public Customer getCustomerById(Long id) throws Exception {
+        return customerRepository.findById(id).orElseThrow(() -> new Exception("No Customer found"));
     }
 
     public List<Customer> getAllCustomers(){

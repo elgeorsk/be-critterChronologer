@@ -35,6 +35,7 @@ public class UserController {
         this.petService = petService;
     }
 
+    // Handling requests for customers
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         List<Long> petIds = customerDTO.getPetIds();
@@ -68,6 +69,10 @@ public class UserController {
         return convertCustomer2DTO(customer);
     }
 
+    // end - Handling requests for customers
+
+
+    // Handling requests for employees
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
         Employee employee = convertDTO2Employee(employeeDTO);
@@ -103,6 +108,10 @@ public class UserController {
 
     }
 
+    // end - Handling requests for employees
+
+
+    // Convert DTOs to entities and versa
     private Customer convertDTO2Customer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer);
