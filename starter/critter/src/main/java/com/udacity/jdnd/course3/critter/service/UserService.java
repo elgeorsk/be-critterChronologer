@@ -31,7 +31,7 @@ public class UserService{
     }
 
     public Customer getCustomerById(Long id) throws Exception {
-        return customerRepository.findById(id).orElseThrow(() -> new Exception("No Customer found"));
+        return customerRepository.findById(id).orElseThrow(() -> new Exception("Customer not found"));
     }
 
     public List<Customer> getAllCustomers(){
@@ -46,8 +46,8 @@ public class UserService{
         return employeeRepository.save(employee);
     }
 
-    public Employee getEmployeeById(Long id){
-        return employeeRepository.findById(id).orElse(null);
+    public Employee getEmployeeById(Long id)  throws Exception {
+        return employeeRepository.findById(id).orElseThrow(() -> new Exception("Employee not found"));
     }
 
     public List<Employee> getAvailableEmployeesBySkills(DayOfWeek date, Set<EmployeeSkill> skills){

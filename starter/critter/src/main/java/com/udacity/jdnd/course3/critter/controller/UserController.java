@@ -81,13 +81,23 @@ public class UserController {
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        Employee employee = userService.getEmployeeById(employeeId);
+        Employee employee = null;
+        try {
+            employee = userService.getEmployeeById(employeeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return convertEmployee2DTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        Employee employee = userService.getEmployeeById(employeeId);
+        Employee employee = null;
+        try {
+            employee = userService.getEmployeeById(employeeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         List<DayOfWeek> availability = new ArrayList<DayOfWeek>(daysAvailable);
         Set<DayOfWeek> hSet = new HashSet<DayOfWeek>(availability);
         hSet.addAll(availability);

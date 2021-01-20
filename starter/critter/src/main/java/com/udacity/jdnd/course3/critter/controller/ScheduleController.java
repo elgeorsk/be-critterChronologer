@@ -43,7 +43,11 @@ public class ScheduleController {
 
         if (employeeIds != null) {
             for (Long employeeId: employeeIds) {
-                employees.add(userService.getEmployeeById(employeeId));
+                try {
+                    employees.add(userService.getEmployeeById(employeeId));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
