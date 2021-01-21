@@ -31,30 +31,14 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        Customer customer = null;
-        if ((Long) petDTO.getOwnerId() != null) {
-            try {
-                customer = userService.getCustomerById(petDTO.getOwnerId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        Customer customer = userService.getCustomerById(petDTO.getOwnerId());
         Pet pet = convertDTO2Pet(petDTO);
-        pet.setOwner(customer);
-        Pet savedPet = petService.savePet(pet);
-        return convertPet2DTO(savedPet);
+        return convertPet2DTO(petService.savePet(pet, customer));
     }
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        PetDTO petDTO;
-        Pet pet = petService.getPet(petId);
-        if (pet != null) {
-            petDTO = convertPet2DTO(pet);
-            petDTO.setOwnerId(pet.getOwner().getId());
-            return petDTO;
-        }
-        return null;
+        return convertPet2DTO(petService.getPet(petId));
     }
 
     @GetMapping
@@ -64,7 +48,6 @@ public class PetController {
 
         for(Pet pet : pets){
             PetDTO petDTO = convertPet2DTO(pet);
-            petDTO.setOwnerId(pet.getOwner().getId());
             petsDTO.add(petDTO);
         }
 
@@ -78,7 +61,6 @@ public class PetController {
 
         for(Pet pet : pets){
             PetDTO petDTO = convertPet2DTO(pet);
-            petDTO.setOwnerId(pet.getOwner().getId());
             petsDTO.add(petDTO);
         }
         return petsDTO;
@@ -93,6 +75,7 @@ public class PetController {
     private PetDTO convertPet2DTO(Pet pet) {
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
+        petDTO.setOwnerId(pet.getOwner().getId());
         return petDTO;
     }
 }

@@ -2,6 +2,7 @@ package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Pet;
+import com.udacity.jdnd.course3.critter.exception.PetNotFoundException;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ import java.util.List;
 @Transactional
 public class PetService {
 
-    private PetRepository petRepository;
-    private CustomerRepository customerRepository;
+    private final PetRepository petRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
     public PetService(PetRepository petRepository, CustomerRepository customerRepository){
@@ -23,17 +24,18 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
-    public Pet savePet(Pet pet){
-        Pet returnedPet = petRepository.save(pet);
-        Customer customer = returnedPet.getOwner();
-        customer.addPet(returnedPet);
+    public Pet savePet(Pet pet, Customer customer){
+        pet.setOwner(customer);
+        Pet savedPet = petRepository.save(pet);
+        customer = savedPet.getOwner();
+        customer.addPet(savedPet);
         customerRepository.save(customer);
-        return returnedPet;
+        return savedPet;
 
     }
 
     public Pet getPet(Long petId){
-        return petRepository.getOne(petId);
+        return petRepository.findById(petId).orElseThrow(PetNotFoundException::new);
     }
 
     public List<Pet> getAllPets(){

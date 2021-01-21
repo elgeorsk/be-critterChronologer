@@ -13,8 +13,8 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ElementCollection(targetClass=PetType.class, fetch = FetchType.LAZY)
-    private Set<PetType> PetType;
+    @Enumerated(EnumType.STRING)
+    private PetType petType;
 
     @Nationalized
     private String name;
@@ -27,12 +27,20 @@ public class Pet {
     @Column(length = 240)
     private String notes;
 
-    public Set<PetType> getPetType() {
-        return PetType;
+    public long getId() {
+        return id;
     }
 
-    public void setPetType(Set<PetType> petType) {
-        PetType = petType;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public PetType getPetType() {
+        return petType;
+    }
+
+    public void setPetType(PetType petType) {
+        this.petType = petType;
     }
 
     public String getName() {
@@ -65,13 +73,5 @@ public class Pet {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

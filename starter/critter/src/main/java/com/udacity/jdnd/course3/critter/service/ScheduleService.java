@@ -14,8 +14,8 @@ import java.util.List;
 @Transactional
 public class ScheduleService {
 
-    private ScheduleRepository scheduleRepository;
-    private CustomerRepository customerRepository;
+    private final ScheduleRepository scheduleRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
     public ScheduleService(ScheduleRepository scheduleRepository, CustomerRepository customerRepository){

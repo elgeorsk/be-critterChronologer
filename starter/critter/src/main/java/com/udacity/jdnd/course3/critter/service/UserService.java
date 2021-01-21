@@ -3,6 +3,8 @@ package com.udacity.jdnd.course3.critter.service;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.EmployeeSkill;
+import com.udacity.jdnd.course3.critter.exception.CustomerNotFoundException;
+import com.udacity.jdnd.course3.critter.exception.EmployeeNotFoundException;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
@@ -15,9 +17,9 @@ import java.util.*;
 @Service
 public class UserService{
 
-    private CustomerRepository customerRepository;
-    private EmployeeRepository employeeRepository;
-    private PetRepository petRepository;
+    private final CustomerRepository customerRepository;
+    private final EmployeeRepository employeeRepository;
+    private final PetRepository petRepository;
 
     @Autowired
     public UserService(CustomerRepository customerRepository, EmployeeRepository employeeRepository, PetRepository petRepository){
@@ -30,8 +32,8 @@ public class UserService{
         return customerRepository.save(customer);
     }
 
-    public Customer getCustomerById(Long id) throws Exception {
-        return customerRepository.findById(id).orElseThrow(() -> new Exception("Customer not found"));
+    public Customer getCustomerById(Long id){
+        return customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
     }
 
     public List<Customer> getAllCustomers(){
@@ -46,8 +48,8 @@ public class UserService{
         return employeeRepository.save(employee);
     }
 
-    public Employee getEmployeeById(Long id)  throws Exception {
-        return employeeRepository.findById(id).orElseThrow(() -> new Exception("Employee not found"));
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
     }
 
     public List<Employee> getAvailableEmployeesBySkills(DayOfWeek date, Set<EmployeeSkill> skills){

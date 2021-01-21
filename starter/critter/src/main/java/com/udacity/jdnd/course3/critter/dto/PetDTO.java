@@ -16,14 +16,13 @@ public class PetDTO {
     private long ownerId;
     private LocalDate birthDate;
     private String notes;
-    private Customer owner;
 
-    public Customer getOwner() {
-        return owner;
+    public long getId() {
+        return id;
     }
 
-    public void setOwner(Customer owner) {
-        this.owner = owner;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public PetType getType() {
@@ -64,13 +63,5 @@ public class PetDTO {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

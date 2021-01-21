@@ -40,13 +40,14 @@ public class UserController {
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         List<Long> petIds = customerDTO.getPetIds();
         List<Pet> pets = new ArrayList<>();
+
         if (petIds != null) {
-            for (Long petId: petIds) {
+            for (Long petId : petIds) {
                 pets.add(petService.getPet(petId));
             }
         }
-        Customer customer = convertDTO2Customer(customerDTO);
-        customer.setPets(pets);
+
+        Customer customer = convertDTO2Customer(customerDTO, pets);
         Customer savedCustomer = userService.saveCustomer(customer);
         return convertCustomer2DTO(savedCustomer);
     }
@@ -81,26 +82,18 @@ public class UserController {
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        Employee employee = null;
-        try {
-            employee = userService.getEmployeeById(employeeId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Employee employee = userService.getEmployeeById(employeeId);
         return convertEmployee2DTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        Employee employee = null;
-        try {
-            employee = userService.getEmployeeById(employeeId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Employee employee = userService.getEmployeeById(employeeId);
+
         List<DayOfWeek> availability = new ArrayList<DayOfWeek>(daysAvailable);
         Set<DayOfWeek> hSet = new HashSet<DayOfWeek>(availability);
         hSet.addAll(availability);
+
         employee.setDaysAvailable(hSet);
         userService.saveEmployee(employee);
     }
@@ -117,14 +110,13 @@ public class UserController {
         return  employeeDTOList;
 
     }
-
     // end - Handling requests for employees
 
-
     // Convert DTOs to entities and versa
-    private Customer convertDTO2Customer(CustomerDTO customerDTO) {
+    private Customer convertDTO2Customer(CustomerDTO customerDTO, List<Pet> pets) {
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer);
+        customer.setPets(pets);
         return customer;
     }
 
